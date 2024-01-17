@@ -147,7 +147,7 @@ def get_ds(config):
     # Define a filter function
     def is_shorter_than_512(item):
         # Adjust these keys ('text', 'translation', etc.) according to your dataset structure
-        return len(item['text']) <= 512 and len(item['translation']) <= 512
+        return len(item['text']) <= 512
 
     # Filter the dataset
     filtered_ds = full_ds.filter(is_shorter_than_512)
