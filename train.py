@@ -143,9 +143,16 @@ def get_ds(config):
     full_ds = load_dataset(f"{config['datasource']}", split='train')
     # Split the dataset to get only a specific percentage
     # For example, to get 10% of the dataset, set train_size to 0.1
-    split_ds = full_ds.train_test_split(train_size=0.2)
+    # split_ds = full_ds.train_test_split(train_size=0.2)
+    # Define a filter function
+    def is_shorter_than_512(item):
+        # Adjust these keys ('text', 'translation', etc.) according to your dataset structure
+        return len(item['text']) <= 512 and len(item['translation']) <= 512
+
+    # Filter the dataset
+    filtered_ds = full_ds.filter(is_shorter_than_512)
     # It only has the train split, so we divide it overselves
-    ds_raw = split_ds['train']
+    ds_raw = filtered_ds['train']
 
     # Build tokenizers
     tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
