@@ -152,8 +152,8 @@ def get_ds(config):
     # Filter the dataset
     filtered_ds = full_ds.filter(is_shorter_than_512)
     # It only has the train split, so we divide it overselves
-    ds_raw = filtered_ds['train']
-
+    ds_raw = filtered_ds
+    print(filtered_ds)
     # Build tokenizers
     tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
     tokenizer_tgt = get_or_build_tokenizer(config, ds_raw, config['lang_tgt'])
