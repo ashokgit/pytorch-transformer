@@ -139,8 +139,13 @@ def get_or_build_tokenizer(config, ds, lang):
     return tokenizer
 
 def get_ds(config):
+    # Load the full dataset
+    full_ds = load_dataset(f"{config['datasource']}", split='train')
+    # Split the dataset to get only a specific percentage
+    # For example, to get 10% of the dataset, set train_size to 0.1
+    split_ds = full_ds.train_test_split(train_size=0.2)
     # It only has the train split, so we divide it overselves
-    ds_raw = load_dataset(f"{config['datasource']}", split='train')
+    ds_raw = split_ds['train']
 
     # Build tokenizers
     tokenizer_src = get_or_build_tokenizer(config, ds_raw, config['lang_src'])
